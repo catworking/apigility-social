@@ -15,6 +15,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrineToolPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrinePaginatorAdapter;
 use ApigilitySocial\DoctrineEntity;
+use Doctrine\ORM\Query\Expr;
 
 class PersonService extends ApigilityEventAwareObject
 {
@@ -87,7 +88,7 @@ class PersonService extends ApigilityEventAwareObject
     public function getPersons($params)
     {
         $qb = new QueryBuilder($this->em);
-        $qb->select('p')->from('ApigilitySocial\DoctrineEntity\Person', 'p');
+        $qb->select('p')->from('ApigilitySocial\DoctrineEntity\Person', 'p')->orderBy(new Expr\OrderBy('p.id', 'DESC'));
 
         $where = '';
 
