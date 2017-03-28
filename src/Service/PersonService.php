@@ -109,7 +109,8 @@ class PersonService extends ApigilityEventAwareObject
             isset($params->residence_address_district) ||
             isset($params->census_register_address_province) ||
             isset($params->census_register_address_city) ||
-            isset($params->census_register_address_district))  $qb->innerJoin('p.user', 'u');
+            isset($params->census_register_address_district) ||
+            isset($params->personal_certification_status))  $qb->innerJoin('p.user', 'u');
 
         if (isset($params->user_id)) {
             if (!empty($where)) $where .= ' AND ';
@@ -215,6 +216,12 @@ class PersonService extends ApigilityEventAwareObject
             $where .= 'crad.id = :census_register_address_district';
         }
 
+        if (isset($params->personal_certification_status)) {
+            $qb->innerJoin('u.personalCertification', 'pc');
+            if (!empty($where)) $where .= ' AND ';
+            $where .= 'pc.status = :personal_certification_status';
+        }
+
         if (isset($params->vip)) {
             if (!empty($where)) $where .= ' AND ';
             $where .= 'p.vip_expire_time > :now';
@@ -251,6 +258,9 @@ class PersonService extends ApigilityEventAwareObject
                 $qb->setParameter('census_register_address_city', $params->census_register_address_city);
             if (isset($params->census_register_address_district))
                 $qb->setParameter('census_register_address_district', $params->census_register_address_district);
+
+            if (isset($params->personal_certification_status))
+                $qb->setParameter('personal_certification_status', $params->personal_certification_status);
 
             if (isset($params->vip)) $qb->setParameter('now', new \DateTime());
         }

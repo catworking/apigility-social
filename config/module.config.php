@@ -80,6 +80,7 @@ return [
                 16 => 'census_register_address_city',
                 17 => 'census_register_address_district',
                 18 => 'vip',
+                19 => 'personal_certification_status',
             ],
             'page_size' => 25,
             'page_size_param' => null,
