@@ -168,7 +168,11 @@ class RequirementService
         if (isset($data->zodiac)) $requirement->setZodiac($data->zodiac);
         if (isset($data->chinese_zodiac)) $requirement->setChineseZodiac($data->chinese_zodiac);
 
-        if (isset($data->income_level)) $requirement->setIncomeLevel($this->incomeLevelService->getIncomeLevel($data->income_level));
+        if (property_exists ($data, 'income_level')) {
+            if ($data->income_level === null) $requirement->setIncomeLevel(null);
+            else $requirement->setIncomeLevel($this->incomeLevelService->getIncomeLevel($data->income_level));
+        }
+
         if (isset($data->occupation)) $requirement->setOccupation($this->occupationService->getOccupation($data->occupation));
         if (isset($data->residence_address)) $requirement->setResidenceAddress($this->addressService->getAddress($data->residence_address));
         if (isset($data->census_register_address)) $requirement->setCensusRegisterAddress($this->addressService->getAddress($data->census_register_address));
