@@ -157,24 +157,71 @@ class RequirementService
      */
     private function hydrateRequirementData(Requirement $requirement, $data)
     {
-        if (isset($data->sex)) $requirement->setSex($data->sex);
-        if (isset($data->age_min)) $requirement->setAgeMin($data->age_min);
-        if (isset($data->age_max)) $requirement->setAgeMax($data->age_max);
-        if (isset($data->stature_min)) $requirement->setStatureMin($data->stature_min);
-        if (isset($data->stature_max)) $requirement->setStatureMax($data->stature_max);
+        if (property_exists ($data, 'sex')) {
+            if ($data->sex === 0) $requirement->setSex(null);
+            else $requirement->setSex($data->sex);
+        }
 
-        if (isset($data->education)) $requirement->setEducation($data->education);
-        if (isset($data->emotion)) $requirement->setEmotion($data->emotion);
-        if (isset($data->zodiac)) $requirement->setZodiac($data->zodiac);
-        if (isset($data->chinese_zodiac)) $requirement->setChineseZodiac($data->chinese_zodiac);
+        if (property_exists ($data, 'age_min')) {
+            if ($data->age_min === 0) $requirement->setAgeMin(null);
+            else $requirement->setAgeMin($data->age_min);
+        }
+
+        if (property_exists ($data, 'age_max')) {
+            if ($data->age_max === 0) $requirement->setAgeMax(null);
+            else $requirement->setAgeMax($data->age_max);
+        }
+
+        if (property_exists ($data, 'stature_min')) {
+            if ($data->stature_min === 0) $requirement->setStatureMin(null);
+            else $requirement->setStatureMin($data->stature_min);
+        }
+
+        if (property_exists ($data, 'stature_max')) {
+            if ($data->stature_max === 0) $requirement->setStatureMax(null);
+            else $requirement->setStatureMax($data->stature_max);
+        }
+
+
+        if (property_exists ($data, 'education')) {
+            if ($data->education === 0) $requirement->setEducation(null);
+            else $requirement->setEducation($data->education);
+        }
+
+        if (property_exists ($data, 'emotion')) {
+            if ($data->emotion === 0) $requirement->setEmotion(null);
+            else $requirement->setEmotion($data->emotion);
+        }
+
+        if (property_exists ($data, 'zodiac')) {
+            if ($data->zodiac === 0) $requirement->setZodiac(null);
+            else $requirement->setZodiac($data->zodiac);
+        }
+
+        if (property_exists ($data, 'chinese_zodiac')) {
+            if ($data->chinese_zodiac === 0) $requirement->setChineseZodiac(null);
+            else $requirement->setChineseZodiac($data->chinese_zodiac);
+        }
+
 
         if (property_exists ($data, 'income_level')) {
-            if ($data->income_level === null) $requirement->setIncomeLevel(null);
+            if ($data->income_level === 0) $requirement->setIncomeLevel(null);
             else $requirement->setIncomeLevel($this->incomeLevelService->getIncomeLevel($data->income_level));
         }
 
-        if (isset($data->occupation)) $requirement->setOccupation($this->occupationService->getOccupation($data->occupation));
-        if (isset($data->residence_address)) $requirement->setResidenceAddress($this->addressService->getAddress($data->residence_address));
-        if (isset($data->census_register_address)) $requirement->setCensusRegisterAddress($this->addressService->getAddress($data->census_register_address));
+        if (property_exists ($data, 'occupation')) {
+            if ($data->occupation === 0) $requirement->setOccupation(null);
+            else  $requirement->setOccupation($this->occupationService->getOccupation($data->occupation));
+        }
+
+        if (property_exists ($data, 'residence_address')) {
+            if ($data->residence_address === 0) $requirement->setResidenceAddress(null);
+            else $requirement->setResidenceAddress($this->addressService->getAddress($data->residence_address));
+        }
+
+        if (property_exists ($data, 'census_register_address')) {
+            if ($data->census_register_address === 0) $requirement->setCensusRegisterAddress(null);
+            else $requirement->setCensusRegisterAddress($this->addressService->getAddress($data->census_register_address));
+        }
     }
 }
