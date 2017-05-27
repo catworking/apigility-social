@@ -159,8 +159,6 @@ class PersonEntity extends ApigilityObjectStorageAwareEntity
      */
     public function getOnline()
     {
-        $string = Rand::getString(1, '0123456789');
-        if ((int)$string > 0) return true;
-        else return false;
+        return (boolean)$this->user->getTokens();
     }
 }
