@@ -159,6 +159,6 @@ class PersonEntity extends ApigilityObjectStorageAwareEntity
      */
     public function getOnline()
     {
-        return (boolean)$this->user->getTokens();
+        return (boolean)$this->user->getTokens()->count();
     }
 }
