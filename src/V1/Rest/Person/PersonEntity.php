@@ -155,10 +155,17 @@ class PersonEntity extends ApigilityObjectStorageAwareEntity
     }
 
     /**
-     * 随机显示在线状态(在线概率90%)
+     * 用户在线状态
      */
     public function getOnline()
     {
-        return (boolean)$this->user->getTokens()->count();
+        $count = 0;
+        $tokens = $this->user->getTokens();
+        foreach ($tokens as $token) {
+            if (time() <= $token->getExpires()->getTimestamp()) {
+                $count++;
+            }
+        }
+        return (boolean)$count;
     }
 }
