@@ -9,6 +9,7 @@ use ApigilityUser\V1\Rest\User\UserEntity;
 use ApigilityVIP\DoctrineEntity\Status;
 use ApigilityVIP\V1\Rest\Status\StatusEntity;
 use Zend\Math\Rand;
+use ApigilityGroup\Service\ParticipationDetailService;
 
 class PersonEntity extends ApigilityObjectStorageAwareEntity
 {
@@ -167,5 +168,27 @@ class PersonEntity extends ApigilityObjectStorageAwareEntity
             }
         }
         return (boolean)$count;
+    }
+    
+    /**
+     * 是否正常付费
+     */
+    public function getOriginalPayed()
+    {
+        $data = new \stdClass();
+        $data->user_id = $this->user->getId();
+        $orders = $this->serviceManager->get('ApigilityOrder\Service\OrderService')->getOrdersByUser($this->user);
+        foreach ($orders as $order) {
+            if($order->getStatus() != 3) continue;
+            
+            $participations = $this->serviceManager->get('ApigilityGroup\Service\ParticipationDetailService')->getParticipationDetailsByUser($order->getUser());
+            if(count($participations)) {
+                return false;    // 参与过拼团的，不属于正常付费
+            }
+            
+            return true;
+        }
+        
+        return false;
     }
 }
