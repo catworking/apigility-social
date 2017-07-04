@@ -181,11 +181,10 @@ class PersonEntity extends ApigilityObjectStorageAwareEntity
         foreach ($orders as $order) {
             if($order->getStatus() != 3) continue;
             
-            $participations = $this->serviceManager->get('ApigilityGroup\Service\ParticipationDetailService')->getParticipationDetailsByUser($order->getUser());
-            if(count($participations)) {
-                return false;    // 参与过拼团的，不属于正常付费
-            }
-            
+            $participations = $this->serviceManager->get('ApigilityGroup\Service\ParticipationDetailService')->getParticipationDetailsByOrder($order);
+
+            if(count($participations)) continue; // 参与过拼团的，不属于正常付费
+
             return true;
         }
         
